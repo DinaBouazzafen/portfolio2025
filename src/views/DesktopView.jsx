@@ -5,6 +5,8 @@ export default function DesktopView() {
     { name: 'About Me', route: '/about' },
     { name: 'Graphic Design', route: '/graphic-design' },
     { name: 'Motion Design', route: '/motion-design' },
+    { name: 'Multimedia', route: '/multimedia' },
+    { name: 'Random', route: '/random' },
   ];
 
   return (

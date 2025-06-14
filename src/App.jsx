@@ -5,6 +5,9 @@ import MobileView from './views/MobileView';
 import AboutPage from './pages/AboutPage';
 import GraphicDesignPage from './pages/GraphicDesignPage';
 import MotionDesignPage from './pages/MotionDesignPage';
+import MultimediaPage from './pages/MultimediaPage';
+import RandomPage from './pages/RandomPage';
+
 
 function App() {
   const [isMobile, setIsMobile] = useState(false);
@@ -25,6 +28,8 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/graphic-design" element={<GraphicDesignPage />} />
         <Route path="/motion-design" element={<MotionDesignPage />} />
+        <Route path="/multimedia" element={<MultimediaPage />} />
+        <Route path="/random" element={<RandomPage />} />
       </Routes>
     </Router>
   );
