@@ -1,15 +1,16 @@
-import { useNavigate } from 'react-router-dom';
-import { useRef, useState, useEffect } from 'react';
-import GridBackground from '../pages/GridBackground';
+import DotGrid from '../pages/DotGrid';
+import TopMenu from '../pages/TopMenu';
+import FolderGrid from '../pages/FolderGrid';
+import VariableProximity from '../pages/Title'
 import aboutMeImg from '../assets/aboutme.png';
 import graphicDesignImg from '../assets/graphicdesign.png';
 import motionDesignImg from '../assets/motiondesign.png';
 import multimediaImg from '../assets/multimedia.png';
 import randomImg from '../assets/random.png';
+import { useRef } from 'react';
+
 
 export default function DesktopView() {
-  const navigate = useNavigate();
-
   const folders = [
     { name: 'About Me', route: '/about', image: aboutMeImg },
     { name: 'Graphic Design', route: '/graphic-design', image: graphicDesignImg },
@@ -17,87 +18,7 @@ export default function DesktopView() {
     { name: 'Multimedia', route: '/multimedia', image: multimediaImg },
     { name: 'Random', route: '/random', image: randomImg },
   ];
-
-  // State for folder positions
-  const [positions, setPositions] = useState([]);
-
-  // Load saved positions or generate new ones on mount
-  useEffect(() => {
-    const savedPositions = localStorage.getItem('folderPositions');
-    if (savedPositions) {
-      setPositions(JSON.parse(savedPositions));
-    } else {
-      const margin = 40;
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-
-      const newPositions = folders.map((_, i) => {
-        if (i % 3 === 0) {
-          return {
-            x: Math.random() * (width / 3 - margin) + margin,
-            y: Math.random() * (height - 100) + 60,
-          };
-        } else if (i % 3 === 1) {
-          return {
-            x: Math.random() * (width / 3 - margin) + (2 * width) / 3,
-            y: Math.random() * (height - 100) + 60,
-          };
-        } else {
-          return {
-            x: Math.random() * (width - 2 * margin) + margin,
-            y: Math.random() * (height / 3 - margin) + height * 0.7,
-          };
-        }
-      });
-
-      setPositions(newPositions);
-    }
-  }, [folders.length]);
-
-  // Save positions to localStorage whenever they change
-  useEffect(() => {
-    if (positions.length === folders.length) {
-      localStorage.setItem('folderPositions', JSON.stringify(positions));
-    }
-  }, [positions, folders.length]);
-
-  const draggingIndex = useRef(null);
-  const dragStartPos = useRef({ x: 0, y: 0 });
-  const pointerStartPos = useRef({ x: 0, y: 0 });
-  const hasDragged = useRef(false);
-
-  function onPointerDown(e, index) {
-    e.currentTarget.setPointerCapture(e.pointerId);
-    draggingIndex.current = index;
-    dragStartPos.current = { ...positions[index] };
-    pointerStartPos.current = { x: e.clientX, y: e.clientY };
-    hasDragged.current = false;
-  }
-
-  function onPointerMove(e) {
-    if (draggingIndex.current === null) return;
-    const dx = e.clientX - pointerStartPos.current.x;
-    const dy = e.clientY - pointerStartPos.current.y;
-
-    if (!hasDragged.current && (Math.abs(dx) > 5 || Math.abs(dy) > 5)) {
-      hasDragged.current = true;
-    }
-
-    setPositions((pos) => {
-      const newPos = [...pos];
-      newPos[draggingIndex.current] = {
-        x: dragStartPos.current.x + dx,
-        y: dragStartPos.current.y + dy,
-      };
-      return newPos;
-    });
-  }
-
-  function onPointerUp(e) {
-    if (draggingIndex.current === null) return;
-    e.currentTarget.releasePointerCapture(e.pointerId);
-    draggingIndex.current = null;
-  }
+    const containerRef = useRef(null);
 
   return (
     <div
@@ -106,74 +27,66 @@ export default function DesktopView() {
         fontFamily:
           '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif',
       }}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onPointerCancel={onPointerUp}
     >
       {/* Mac-style Top menu bar */}
+      <TopMenu/>
+
+      {/* Background grid */}
       <div
-        className="fixed top-0 left-0 w-full h-6 flex items-center px-4 select-none z-50"
         style={{
-          backgroundColor: 'rgba(255 255 255 / 0.85)',
-          backdropFilter: 'saturate(180%) blur(12px)',
-          borderBottom: '1px solid rgba(0,0,0,0.1)',
-          fontSize: '12px',
-          color: '#333',
-          userSelect: 'none',
-          WebkitUserSelect: 'none',
-          paddingLeft: '16px',
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          zIndex: 0,
         }}
       >
-        <div className="flex justify-between w-[400px] relative ml-4">
-          {['Finder', 'File', 'Edit', 'View', 'Go', 'Window', 'Help'].map((menu, i) => (
-            <span
-              key={i}
-              className="cursor-default hover:bg-gray-200 rounded px-1.5 py-0.5 select-none"
-              style={{ userSelect: 'none' }}
-            >
-              {menu}
-            </span>
-          ))}
-        </div>
+        <DotGrid
+          dotSize={0.1}
+          gap={19}
+          baseColor="#A2A2A2"
+          activeColor="#FF0000"
+          proximity={120}
+          shockRadius={250}
+          shockStrength={10}
+          resistance={750}
+          returnDuration={1.5}
+        />
       </div>
+      {/* Title */}
+      
+<div
+  ref={containerRef}
+  className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-auto"
+>
+  {/* Light "welcome to my" */}
+  <VariableProximity
+    label="welcome to my"
+    className="text-[30px] sm:text-[30px] md:text-[40px] lg:text-[66px] font-extralight leading-tight"
+    fromFontVariationSettings="'wght' 200, 'opsz' 9"
+    toFontVariationSettings="'wght' 800, 'opsz' 40"
+    containerRef={containerRef}
+    radius={100}
+    falloff="linear"
+  />
 
-      {/* Grid background as black lines on white */}
-      <GridBackground />
-
-      {/* Draggable folders */}
-      <div className="absolute inset-0 z-10">
-        {positions.length === folders.length &&
-          folders.map((folder, i) => (
-            <div
-              key={i}
-              onDoubleClick={() => {
-                if (!hasDragged.current) {
-                  navigate(folder.route);
-                }
-              }}
-              onPointerDown={(e) => onPointerDown(e, i)}
-              onPointerUp={(e) => onPointerUp(e, i)}
-              style={{
-                position: 'absolute',
-                left: positions[i].x,
-                top: positions[i].y,
-                touchAction: 'none',
-              }}
-              className="flex flex-col items-center cursor-pointer group hover:scale-105 transition-transform select-none"
-            >
-              <img
-                src={folder.image}
-                alt={folder.name}
-                className="w-10 h-10 md:w-10 md:h-10 mb-1 drop-shadow group-hover:drop-shadow-md transition-all"
-                style={{ maxWidth: '80px', maxHeight: '90px' }}
-                draggable={false}
-              />
-              <span className="text-[10px] font-medium text-gray-800 group-hover:underline text-center">
-                {folder.name}
-              </span>
-            </div>
-          ))}
-      </div>
+  {/* Bold "portfolio" */}
+  <VariableProximity
+  label="portfolio."
+  className="text-[48px] sm:text-[64px] md:text-[80px] lg:text-[106px] font-medium font-serif italic leading-tight"
+  fromFontVariationSettings="'wght' 400, 'opsz' 9"   // Use 400 for normal, as you mentioned
+  toFontVariationSettings="'wght' 700, 'opsz' 40"    // Hover weight 700
+  containerRef={containerRef}
+  radius={100}
+  falloff="linear"
+  style={{ fontFamily: "'Roboto Serif', serif" }}
+/>
+</div>
+  
+{/* Draggable folders */}
+      <FolderGrid folders={folders} />
     </div>
   );
 }
+
