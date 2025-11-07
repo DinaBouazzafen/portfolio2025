@@ -12,11 +12,11 @@ import { useRef } from 'react';
 
 export default function DesktopView() {
   const folders = [
-    { name: 'About Me', route: '/about', image: aboutMeImg },
-    { name: 'Graphic Design', route: '/graphic-design', image: graphicDesignImg },
-    { name: 'Motion Design', route: '/motion-design', image: motionDesignImg },
-    { name: 'Multimedia', route: '/multimedia', image: multimediaImg },
-    { name: 'Random', route: '/random', image: randomImg },
+    { name: 'about me', route: '/about', image: aboutMeImg },
+    { name: 'graphic design', route: '/graphic-design', image: graphicDesignImg },
+    { name: 'motion design', route: '/motion-design', image: motionDesignImg },
+    { name: 'multimedia', route: '/multimedia', image: multimediaImg },
+    { name: 'random', route: '/random', image: randomImg },
   ];
     const containerRef = useRef(null);
 
@@ -43,7 +43,7 @@ export default function DesktopView() {
         }}
       >
         <DotGrid
-          dotSize={0.1}
+          dotSize={0.8}
           gap={19}
           baseColor="#A2A2A2"
           activeColor="#FF0000"
@@ -73,7 +73,7 @@ export default function DesktopView() {
 
   {/* Bold "portfolio" */}
   <VariableProximity
-  label="portfolio."
+  label="portfolio"
   className="text-[48px] sm:text-[64px] md:text-[80px] lg:text-[106px] font-medium font-serif italic leading-tight"
   fromFontVariationSettings="'wght' 400, 'opsz' 9"   // Use 400 for normal, as you mentioned
   toFontVariationSettings="'wght' 700, 'opsz' 40"    // Hover weight 700
