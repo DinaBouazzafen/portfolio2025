@@ -9,7 +9,7 @@ export default function FolderIcon({ name, route, mobile }) {
       onClick={() => navigate(route)}
       className={`flex flex-col items-center justify-center p-4 rounded-xl cursor-pointer shadow-md hover:shadow-lg transition-all bg-${mobile ? 'gray-100' : 'white'}`}
     >
-      <Folder size={48} />
+      <Folder size={100} />
       <span className="mt-2 text-sm font-semibold">{name}</span>
     </div>
   );

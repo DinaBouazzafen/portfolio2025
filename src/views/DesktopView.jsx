@@ -1,14 +1,26 @@
 import DotGrid from '../pages/DotGrid';
 import TopMenu from '../pages/TopMenu';
-import FolderGrid from '../pages/FolderGrid';
-import VariableProximity from '../pages/Title'
+import VariableProximity from '../pages/Title';
+import FolderGrid from "../pages/FolderGrid";
+import Dock from "../pages/Dock";
+
 import aboutMeImg from '../assets/aboutme.png';
 import graphicDesignImg from '../assets/graphicdesign.png';
 import motionDesignImg from '../assets/motiondesign.png';
 import multimediaImg from '../assets/multimedia.png';
 import randomImg from '../assets/random.png';
+
 import { useRef } from 'react';
 
+// Dock icons (adjust paths if needed)
+import finderIcon from "../assets/dock/finder.png";
+import notesIcon from "../assets/dock/notes.png";
+import githubIcon from "../assets/dock/github.png";
+import mailIcon from "../assets/dock/mail.png";
+import spotifyIcon from "../assets/dock/spotify.png";
+import instaIcon from "../assets/dock/insta.png";
+import photosIcon from "../assets/dock/photos.png";
+import logoIcon from "../assets/dock/logo.png";
 
 export default function DesktopView() {
   const folders = [
@@ -18,7 +30,19 @@ export default function DesktopView() {
     { name: 'multimedia', route: '/multimedia', image: multimediaImg },
     { name: 'random', route: '/random', image: randomImg },
   ];
-    const containerRef = useRef(null);
+
+  const dockItems = [
+    { name: "Finder", image: finderIcon, route: "/finder" },
+    { name: "Notes", image: notesIcon, route: "/notes" },
+    { name: "Mail", image: mailIcon, route: "/mail" },
+    { name: "Photos", image: photosIcon, route: "/photos" },
+    { name: "Instagram", image: instaIcon, route: "/insta" },
+    { name: "Spotify", image: spotifyIcon, route: "/spotify"},
+    { name: "GitHub", image: githubIcon, route: "/github"},
+    { name: "Home", image: logoIcon, route: "/" },
+  ];
+
+  const containerRef = useRef(null);
 
   return (
     <div
@@ -28,20 +52,10 @@ export default function DesktopView() {
           '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif',
       }}
     >
-      {/* Mac-style Top menu bar */}
-      <TopMenu/>
+      <TopMenu />
 
       {/* Background grid */}
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          zIndex: 0,
-        }}
-      >
+      <div className="absolute inset-0 z-0">
         <DotGrid
           dotSize={0.8}
           gap={19}
@@ -54,39 +68,39 @@ export default function DesktopView() {
           returnDuration={1.5}
         />
       </div>
-      {/* Title */}
-      
-<div
-  ref={containerRef}
-  className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-auto"
->
-  {/* Light "welcome to my" */}
-  <VariableProximity
-    label="welcome to my"
-    className="text-[30px] sm:text-[30px] md:text-[40px] lg:text-[66px] font-extralight leading-tight"
-    fromFontVariationSettings="'wght' 200, 'opsz' 9"
-    toFontVariationSettings="'wght' 800, 'opsz' 40"
-    containerRef={containerRef}
-    radius={100}
-    falloff="linear"
-  />
 
-  {/* Bold "portfolio" */}
-  <VariableProximity
-  label="portfolio"
-  className="text-[48px] sm:text-[64px] md:text-[80px] lg:text-[106px] font-medium font-serif italic leading-tight"
-  fromFontVariationSettings="'wght' 400, 'opsz' 9"   // Use 400 for normal, as you mentioned
-  toFontVariationSettings="'wght' 700, 'opsz' 40"    // Hover weight 700
-  containerRef={containerRef}
-  radius={100}
-  falloff="linear"
-  style={{ fontFamily: "'Roboto Serif', serif" }}
-/>
-</div>
-  
-{/* Draggable folders */}
+      {/* Title */}
+      <div
+        ref={containerRef}
+        className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-auto"
+      >
+        <VariableProximity
+          label="welcome to my"
+          className="text-[30px] sm:text-[30px] md:text-[40px] lg:text-[66px] font-extralight leading-tight"
+          fromFontVariationSettings="'wght' 200, 'opsz' 9"
+          toFontVariationSettings="'wght' 800, 'opsz' 40"
+          containerRef={containerRef}
+          radius={100}
+          falloff="linear"
+        />
+
+        <VariableProximity
+          label="portfolio"
+          className="text-[48px] sm:text-[64px] md:text-[80px] lg:text-[106px] font-medium font-serif italic leading-tight"
+          fromFontVariationSettings="'wght' 400, 'opsz' 9"
+          toFontVariationSettings="'wght' 700, 'opsz' 40"
+          containerRef={containerRef}
+          radius={100}
+          falloff="linear"
+          style={{ fontFamily: "'Roboto Serif', serif" }}
+        />
+      </div>
+
+      {/* Draggable folders */}
       <FolderGrid folders={folders} />
+
+      {/* Dock */}
+      <Dock items={dockItems} />
     </div>
   );
 }
-

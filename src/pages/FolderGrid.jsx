@@ -105,11 +105,11 @@ export default function FolderGrid({ folders }) {
             <img
               src={folder.image}
               alt={folder.name}
-              className="w-10 h-10 md:w-10 md:h-10 mb-1 drop-shadow group-hover:drop-shadow-md transition-all"
-              style={{ maxWidth: '80px', maxHeight: '90px' }}
+              className="w-16 h-16 md:w-14 md:h-14 mb-1 drop-shadow group-hover:drop-shadow-md transition-all"
+              style={{ maxWidth: '120px', maxHeight: '120px' }}
               draggable={false}
             />
-            <span className="text-[10px] font-medium text-gray-800 group-hover:underline text-center">
+            <span className="text-[14px] font-medium text-gray-800 group-hover:underline text-center">
               {folder.name}
             </span>
           </div>
